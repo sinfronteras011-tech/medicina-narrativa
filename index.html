@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicina Narrativa | El saber médico al alcance de todos</title>
+    <style>
+        :root {
+            --primary: #2c3e50; /* Azul médico serio */
+            --accent: #3498db;
+            --light: #f4f7f6;
+            --text: #333;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: var(--text); margin: 0; background: var(--light); }
+        header { background: white; padding: 2rem 1rem; text-align: center; border-bottom: 3px solid var(--accent); }
+        .hero h1 { color: var(--primary); font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .hero p { font-size: 1.2rem; color: #666; max-width: 800px; margin: auto; }
+        
+        .section { padding: 3rem 1rem; max-width: 1000px; margin: auto; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem; }
+        .card { background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-top: 4px solid var(--accent); }
+        
+        .about { background: var(--primary); color: white; border-radius: 15px; padding: 3rem; margin-top: 2rem; }
+        .about h2 { color: var(--accent); }
+        
+        .contact { text-align: center; background: white; padding: 3rem 1rem; }
+        .btn { background: var(--accent); color: white; padding: 1rem 2rem; text-decoration: none; border-radius: 50px; font-weight: bold; display: inline-block; margin-top: 1rem; transition: transform 0.2s; }
+        .btn:hover { transform: scale(1.05); }
+        .disclaimer { font-size: 0.8rem; color: #888; margin-top: 2rem; padding: 0 1rem; }
+    </style>
+</head>
+<body>
+
+<header class="hero">
+    <h1>Medicina Narrativa: Tu Salud en Historias</h1>
+    <p>Entiende la ciencia médica y la historia detrás de tu bienestar sin tecnicismos complejos.</p>
+    <a href="#contacto" class="btn">Ver episodios</a>
+</header>
+
+<section class="section">
+    <h2 style="text-align:center">Nuestros Pilares de Contenido</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Historia de la Medicina</h3>
+            <p>Descubre el origen de los tratamientos que usamos hoy.</p>
+        </div>
+        <div class="card">
+            <h3>Ciencia Digerible</h3>
+            <p>Fármacos y procesos explicados de forma humana.</p>
+        </div>
+        <div class="card">
+            <h3>Mitos bajo el Microscopio</h3>
+            <p>Desmentimos las tendencias sin base científica.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section about">
+    <h2>El saber médico al alcance de todos</h2>
+    <p>En un entorno digital saturado por búsquedas en Google que no ofrecen evidencia verificada y respuestas de IA basadas en foros desinformados, este proyecto nace para devolverle el rigor a la divulgación.</p>
+    <p><strong>Ciencia verificada por humanos, no por algoritmos.</strong> Mi objetivo es traducir la complejidad de la ciencia para que tomes mejores decisiones sobre tu salud.</p>
+</section>
+
+<section class="contact" id="contacto">
+    <h2>Sigamos la Conversación</h2>
+    <p>Encuéntrame en TikTok e Instagram: <strong>@MDC</strong></p>
+    <p>¿Tienes alguna duda técnica o histórica? Escríbeme.</p>
+    <a href="mailto:tuemail@ejemplo.com" class="btn">Enviar Consulta</a>
+    
+    <div class="disclaimer">
+        *Este proyecto es estrictamente educativo e informativo. No constituye una consulta médica, diagnóstico o tratamiento. Ante cualquier síntoma, consulta siempre a tu médico de cabecera.
+    </div>
+</section>
+
+</body>
+</html>
