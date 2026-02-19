@@ -3,200 +3,102 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medicina Narrativa | Explora un universo de salud</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <title>Medicina Narrativa | Portal Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-dark: #1a2a3a;
-            --accent-blue: #0095f6;
-            --text-light: #ffffff;
-            --card-bg: #ffffff;
-            --card-text: #333333;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f9fa;
-            color: var(--card-text);
-        }
-
-        /* HEADER ESTILO IMAGEN */
-        header {
-            background: linear-gradient(180deg, #16222e 0%, #1a2a3a 100%);
-            color: var(--text-light);
-            padding: 4rem 2rem;
+        :root { --deep: #0f172a; --accent: #38bdf8; --glass: rgba(255, 255, 255, 0.03); --text-dim: #94a3b8; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--deep); color: white; margin: 0; overflow-x: hidden; }
+        
+        /* Hero Section */
+        header { 
+            height: 80vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .logo-placeholder {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            font-weight: bold;
-            color: var(--accent-blue);
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            margin: 0;
-            font-weight: 600;
-        }
-
-        header p {
-            font-size: 1.5rem;
-            max-width: 700px;
-            margin: 1rem 0 2rem;
-            opacity: 0.9;
-            font-weight: 300;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: 0.3s;
-        }
-
-        .btn-youtube { background-color: var(--accent-blue); color: white; }
-        .btn-relatos { background-color: rgba(255,255,255,0.15); color: white; border: 1px solid rgba(255,255,255,0.3); }
-        .btn:hover { transform: translateY(-2px); opacity: 0.9; }
-
-        /* GRID DE TARJETAS BLANCAS */
-        .section-grid {
-            max-width: 1100px;
-            margin: -3rem auto 3rem;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
             padding: 0 1rem;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
         }
+        h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 8vw, 4.5rem); margin: 0; line-height: 1.1; }
+        .hero-tagline { color: var(--accent); font-weight: 300; letter-spacing: 4px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 1rem; }
+        .hero-sub { color: var(--text-dim); max-width: 600px; font-size: 1.2rem; margin-top: 1.5rem; }
 
-        .card {
-            background: var(--card-bg);
-            padding: 2.5rem 1.5rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            text-align: center;
-            transition: 0.3s;
+        /* Navigation Grid */
+        .main-nav { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 1.5rem; 
+            padding: 4rem 2rem; 
+            max-width: 1200px; 
+            margin: -10vh auto 0;
         }
-
-        .card:hover { transform: translateY(-5px); }
-        .card h3 { font-size: 1.5rem; color: #1a2a3a; margin: 1rem 0; }
-        .card p { color: #666; line-height: 1.6; }
-        .card a { color: var(--accent-blue); text-decoration: none; font-weight: bold; display: block; margin-top: 1.5rem; }
-
-        /* BANNER DE CITA */
-        .quote-banner {
-            background-color: #0d1721;
+        .nav-card { 
+            background: var(--glass); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            padding: 3rem 2rem; 
+            border-radius: 20px; 
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
             color: white;
-            padding: 4rem 2rem;
-            text-align: center;
-            margin: 4rem 1rem;
-            border-radius: 20px;
-            max-width: 1000px;
-            margin-left: auto;
-            margin-right: auto;
         }
+        .nav-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-10px); border-color: var(--accent); }
+        .nav-card h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 1rem; }
+        .nav-card p { color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; }
 
-        .quote-banner h2 {
-            font-style: italic;
-            font-weight: 400;
-            font-size: 1.8rem;
-            line-height: 1.4;
-            max-width: 800px;
-            margin: auto;
-        }
+        /* Statement */
+        .manifesto { text-align: center; padding: 8rem 2rem; border-top: 1px solid rgba(255,255,255,0.05); }
+        .manifesto h2 { font-style: italic; font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 400; max-width: 800px; margin: auto; }
 
-        /* FORMULARIO */
-        .contact-section {
-            max-width: 800px;
-            margin: 4rem auto;
-            padding: 2rem;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-        }
+        /* Contact Section */
+        .contact-box { background: #1e293b; padding: 4rem 2rem; border-radius: 30px; max-width: 800px; margin: 4rem auto; text-align: center; }
+        input, textarea { background: #0f172a; border: 1px solid #334155; color: white; border-radius: 10px; padding: 1rem; margin: 0.5rem 0; width: 100%; box-sizing: border-box; }
+        .btn-gold { background: white; color: black; padding: 1rem 3rem; border-radius: 50px; font-weight: 600; text-decoration: none; display: inline-block; transition: 0.3s; margin-top: 2rem; border: none; cursor: pointer;}
+        .btn-gold:hover { background: var(--accent); color: white; }
 
-        .contact-section h2 { text-align: center; margin-bottom: 2rem; color: #1a2a3a; }
-        input, textarea {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            box-sizing: border-box;
-            background: #fdfdfd;
-        }
-
-        .btn-submit {
-            background-color: var(--accent-blue);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 1rem;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 1rem;
-        }
-
-        footer { text-align: center; padding: 3rem; color: #888; font-size: 0.9rem; }
+        footer { padding: 4rem; text-align: center; font-size: 0.8rem; opacity: 0.5; letter-spacing: 2px; }
     </style>
 </head>
 <body>
 
-<header>
-    <div class="logo-placeholder">MNC</div>
-    <h1>Medicina Narrativa</h1>
-    <p>Explora un universo de salud a través de historias que te transforman.</p>
-    <div class="btn-group">
-        <a href="https://www.youtube.com/@medicinadelcomplemento" target="_blank" class="btn btn-youtube">Ver en YouTube</a>
-        <a href="historia.html" class="btn btn-relatos">Leer relatos</a>
-    </div>
-</header>
+    <header>
+        <div class="hero-tagline">MDC • Medicina del Complemento</div>
+        <h1>Medicina Narrativa</h1>
+        <p class="hero-sub">Donde la evidencia clínica se encuentra con la experiencia humana. Historias que sanan, ciencia que conecta.</p>
+        <a href="https://www.youtube.com/@medicinadelcomplemento" target="_blank" class="btn-gold">Explorar Episodios</a>
+    </header>
 
-<div class="section-grid">
-    <div class="card">
-        <h3>Casos Clínicos Históricos</h3>
-        <p>Viaja en el tiempo y descubre los relatos que cambiaron la historia de la medicina.</p>
-        <a href="historia.html">Explorar relatos →</a>
-    </div>
-    <div class="card">
-        <h3>Dosis Semanal Visual</h3>
-        <p>Micro-cápsulas de conocimiento médico en formato video para aprender en segundos.</p>
-        <a href="https://www.instagram.com/med.delcomplemento/reels/" target="_blank">Ver Instagram →</a>
-    </div>
-</div>
+    <main class="main-nav">
+        <a href="historia.html" class="nav-card">
+            <h3>Relatos Clínicos</h3>
+            <p>Crónicas sobre el avance de la medicina y los casos que desafiaron la lógica de su tiempo.</p>
+            <span style="color: var(--accent); margin-top: 2rem; display: block;">Leer archivos →</span>
+        </a>
+        <a href="https://www.instagram.com/med.delcomplemento/reels/" target="_blank" class="nav-card">
+            <h3>Dosis Visual</h3>
+            <p>Cápsulas de conocimiento médico adaptadas al ritmo del siglo XXI. Ciencia en movimiento.</p>
+            <span style="color: var(--accent); margin-top: 2rem; display: block;">Ver Instagram →</span>
+        </a>
+    </main>
 
-<div class="quote-banner">
-    <h2>"Ciencia verificada por humanos. Contra la desinformación de algoritmos, rigor y empatía."</h2>
-</div>
+    <section class="manifesto">
+        <h2>"Contra la desinformación de los algoritmos, ofrecemos rigor médico, profundidad histórica y empatía humana."</h2>
+    </section>
 
-<section class="contact-section">
-    <h2>Conecta con tu salud</h2>
-    <form action="https://formspree.io/f/mjgeopqq" method="POST">
-        <input type="email" name="email" placeholder="Tu correo electrónico" required>
-        <textarea name="message" rows="4" placeholder="¿En qué podemos ayudarte hoy?" required></textarea>
-        <button type="submit" class="btn-submit">Enviar Consulta</button>
-    </form>
-</section>
+    <section class="contact-box">
+        <h3 style="font-family: 'Playfair Display'; font-size: 2rem;">¿Buscas comprensión?</h3>
+        <p style="color: var(--text-dim); margin-bottom: 2rem;">Envíanos tu consulta técnica o sugerencia de tema.</p>
+        <form action="https://formspree.io/f/mjgeopqq" method="POST">
+            <input type="email" name="email" placeholder="Tu correo electrónico" required>
+            <textarea name="message" rows="4" placeholder="Escribe tu mensaje..." required></textarea>
+            <button type="submit" class="btn-gold">Enviar Consulta</button>
+        </form>
+    </section>
 
-<footer>
-    <p>MDC - Medicina del Complemento</p>
-</footer>
+    <footer>
+        <p>&copy; 2026 MEDICINA NARRATIVA. TODOS LOS DERECHOS RESERVADOS.</p>
+    </footer>
 
 </body>
 </html>
