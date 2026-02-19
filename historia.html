@@ -9,9 +9,9 @@
         body { font-family: 'Segoe UI', sans-serif; line-height: 1.8; color: var(--text); max-width: 900px; margin: auto; padding: 2rem; background: var(--light); }
         .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: inline-block; margin-bottom: 2rem; }
         .story-card { background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); margin-bottom: 3rem; overflow: hidden; }
-        .featured-image { width: 100%; max-height: 400px; object-fit: cover; border-radius: 10px; margin-bottom: 1.5rem; }
+        .featured-image { width: 100%; max-height: 450px; object-fit: cover; border-radius: 12px; margin: 1rem 0; display: block; background: #eee; }
         h1 { color: var(--primary); font-size: 2.2rem; margin: 0.5rem 0; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; margin: 1.5rem 0; background: #000; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin: 1.5rem 0; background: #000; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
         .date { color: #888; font-size: 0.9rem; }
     </style>
@@ -20,7 +20,7 @@
 
     <a href="./index.html" class="back-link">← Volver al inicio</a>
     <div id="contenedor-historias">
-        <p style="text-align:center;">Cargando historias e imágenes...</p>
+        <p style="text-align:center;">Sincronizando contenido multimedia...</p>
     </div>
 
     <script>
@@ -38,16 +38,30 @@
                     
                     const titulo = text.match(/title: (.*)/)?.[1].replace(/"/g, '') || "Sin título";
                     const fecha = text.match(/date: (.*)/)?.[1].substring(0, 10) || "";
-                    const imagen = text.match(/image: (.*)/)?.[1]?.trim();
-                    const youtubeId = text.match(/youtube_id: (.*)/)?.[1]?.trim();
+                    
+                    // Mejoramos la captura de la ruta de la imagen
+                    let imagenRaw = text.match(/image: (.*)/)?.[1]?.trim().replace(/"/g, '');
+                    let imagenURL = imagenRaw ? (imagenRaw.startsWith('http') ? imagenRaw : `https://brilliant-hummingbird-01319a.netlify.app${imagenRaw}`) : null;
+                    
+                    const youtubeId = text.match(/youtube_id: (.*)/)?.[1]?.trim().replace(/"/g, '');
                     const cuerpo = text.split('---').pop();
 
-                    let imagenHTML = imagen ? `<img src="${imagen}" class="featured-image" alt="Portada">` : '';
-                    let videoHTML = youtubeId ? `<div class="video-container"><iframe src="https://www.youtube.com/embed/${youtubeId}" allowfullscreen></iframe></div>` : '';
+                    let imagenHTML = imagenURL ? `<img src="${imagenURL}" class="featured-image" alt="Portada de la historia">` : '';
+                    
+                    // Forzamos la reproducción integrada con origin y enablejsapi
+                    let videoHTML = youtubeId ? `
+                        <div class="video-container">
+                            <iframe 
+                                src="https://www.youtube.com/embed/${youtubeId}?rel=0&modestbranding=1&enablejsapi=1&origin=https://brilliant-hummingbird-01319a.netlify.app" 
+                                title="Video de YouTube"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                allowfullscreen>
+                            </iframe>
+                        </div>` : '';
 
                     contenedor.innerHTML += `
                         <article class="story-card">
-                            <span class="date">${fecha}</span>
+                            <span class="date">Publicado el: ${fecha}</span>
                             <h1>${titulo}</h1>
                             ${imagenHTML}
                             ${videoHTML}
@@ -55,7 +69,7 @@
                         </article>
                     `;
                 }
-            } catch (e) { contenedor.innerHTML = '<p>Error al cargar el contenido.</p>'; }
+            } catch (e) { contenedor.innerHTML = '<p>Reintentando conexión con los servidores...</p>'; }
         }
         cargarContenido();
     </script>
