@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relatos Médicos | Medicina Narrativa</title>
+    <title>Relatos y Videos | Medicina Narrativa</title>
     <style>
         :root { --primary: #2c3e50; --accent: #3498db; --light: #f4f7f6; --text: #333; }
         body { font-family: 'Segoe UI', sans-serif; line-height: 1.8; color: var(--text); max-width: 900px; margin: auto; padding: 2rem; background: var(--light); }
-        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: inline-block; margin-bottom: 2rem; cursor: pointer; }
-        .story-card { background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); margin-bottom: 3rem; }
-        h1 { color: var(--primary); font-size: 2.2rem; margin-top: 0; }
-        .date { color: #888; font-size: 0.9rem; font-style: italic; }
-        footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #666; }
+        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: inline-block; margin-bottom: 2rem; }
+        .story-card { background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); margin-bottom: 3rem; overflow: hidden; }
+        h1 { color: var(--primary); font-size: 2.2rem; margin: 0.5rem 0; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; margin: 1.5rem 0; background: #000; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+        .date { color: #888; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -19,49 +20,46 @@
     <a href="./index.html" class="back-link">← Volver al inicio</a>
 
     <div id="contenedor-historias">
-        <p style="text-align:center;">Sincronizando con el Panel de Control...</p>
+        <p style="text-align:center;">Cargando narrativa y videos...</p>
     </div>
 
-    <footer>
-        <p>MDC - Medicina del Complemento</p>
-    </footer>
-
     <script>
-        async function cargarHistorias() {
+        async function cargarContenido() {
             const contenedor = document.getElementById('contenedor-historias');
             try {
-                // Forzamos la actualización inmediata con un timestamp
                 const ts = new Date().getTime();
                 const response = await fetch(`https://api.github.com/repos/sinfronteras011-tech/medicina-narrativa/contents/_historias?t=${ts}`);
                 const files = await response.json();
-                
                 if(files.length > 0) contenedor.innerHTML = '';
 
-                // Los más nuevos arriba
-                files.reverse(); 
-
-                for (let file of files) {
+                for (let file of files.reverse()) {
                     const contentRes = await fetch(`${file.download_url}?t=${ts}`);
                     const text = await contentRes.text();
                     
-                    const lineas = text.split('\n');
-                    const titulo = (lineas.find(l => l.startsWith('title:')) || '').replace('title: ', '').replace(/"/g, '');
-                    const fecha = (lineas.find(l => l.startsWith('date:')) || '').replace('date: ', '').substring(0, 10);
+                    // Extraer datos del encabezado
+                    const titulo = text.match(/title: (.*)/)?.[1].replace(/"/g, '') || "Sin título";
+                    const fecha = text.match(/date: (.*)/)?.[1].substring(0, 10) || "";
+                    const youtubeId = text.match(/youtube_id: (.*)/)?.[1]?.trim();
                     const cuerpo = text.split('---').pop();
+
+                    let videoHTML = youtubeId ? `
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/${youtubeId}" allowfullscreen></iframe>
+                        </div>
+                    ` : '';
 
                     contenedor.innerHTML += `
                         <article class="story-card">
-                            <span class="date">Publicado el: ${fecha || 'Reciente'}</span>
-                            <h1>${titulo || 'Sin título'}</h1>
+                            <span class="date">${fecha}</span>
+                            <h1>${titulo}</h1>
+                            ${videoHTML}
                             <div style="white-space: pre-line;">${cuerpo}</div>
                         </article>
                     `;
                 }
-            } catch (error) {
-                contenedor.innerHTML = '<p style="text-align:center;">Tu web se está actualizando. Por favor, refresca en 10 segundos.</p>';
-            }
+            } catch (e) { contenedor.innerHTML = '<p>Error al cargar el contenido.</p>'; }
         }
-        cargarHistorias();
+        cargarContenido();
     </script>
 </body>
 </html>
