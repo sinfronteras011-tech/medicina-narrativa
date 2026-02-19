@@ -7,20 +7,19 @@
     <style>
         :root { --primary: #2c3e50; --accent: #3498db; --light: #f4f7f6; --text: #333; }
         body { font-family: 'Segoe UI', sans-serif; line-height: 1.8; color: var(--text); max-width: 900px; margin: auto; padding: 2rem; background: var(--light); }
-        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: inline-block; margin-bottom: 2rem; }
+        .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: inline-block; margin-bottom: 2rem; cursor: pointer; }
         .story-card { background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); margin-bottom: 3rem; }
         h1 { color: var(--primary); font-size: 2.2rem; margin-top: 0; }
         .date { color: #888; font-size: 0.9rem; font-style: italic; }
         footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #666; }
-        .reference-list { background: #eee; padding: 1rem; border-radius: 8px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <a href="/" class="back-link">← Volver al inicio</a>
+    <a href="./index.html" class="back-link">← Volver al inicio</a>
 
     <div id="contenedor-historias">
-        <p style="text-align:center;">Cargando relatos médicos...</p>
+        <p style="text-align:center;">Cargando relatos médicos actualizados...</p>
     </div>
 
     <footer>
@@ -28,25 +27,27 @@
     </footer>
 
     <script>
-        // Este código busca tus archivos guardados por el Panel de Control
         async function cargarHistorias() {
             const contenedor = document.getElementById('contenedor-historias');
             try {
-                // Buscamos en la carpeta donde el CMS guarda tus textos
-                const response = await fetch('https://api.github.com/repos/sinfronteras011-tech/medicina-narrativa/contents/_historias');
+                // SOLUCIÓN LENTITUD: Agregamos un número aleatorio (?t=...) para forzar a GitHub a dar el archivo más nuevo
+                const timestamp = new Date().getTime();
+                const response = await fetch(`https://api.github.com/repos/sinfronteras011-tech/medicina-narrativa/contents/_historias?t=${timestamp}`);
                 const files = await response.json();
                 
-                if(files.length > 0) contenedor.innerHTML = ''; // Limpiamos el mensaje de carga
+                if(files.length > 0) contenedor.innerHTML = '';
+
+                // Ordenar por nombre (los más nuevos suelen ir primero por fecha en el nombre)
+                files.reverse(); 
 
                 for (let file of files) {
-                    const contentRes = await fetch(file.download_url);
+                    const contentRes = await fetch(`${file.download_url}?t=${timestamp}`);
                     const text = await contentRes.text();
                     
-                    // Separamos el Título del Cuerpo (Formato Markdown)
                     const lineas = text.split('\n');
                     const titulo = lineas.find(l => l.startsWith('title:')).replace('title: ', '').replace(/"/g, '');
                     const fecha = lineas.find(l => l.startsWith('date:')).replace('date: ', '').substring(0, 10);
-                    const cuerpo = text.split('---').pop(); // Todo lo que está después de las rayitas
+                    const cuerpo = text.split('---').pop();
 
                     contenedor.innerHTML += `
                         <article class="story-card">
@@ -57,7 +58,7 @@
                     `;
                 }
             } catch (error) {
-                contenedor.innerHTML = '<p>Publica tu primer relato desde el panel para verlo aquí.</p>';
+                contenedor.innerHTML = '<p>No se encontraron relatos o el servicio está actualizando. Reintenta en un momento.</p>';
             }
         }
         cargarHistorias();
