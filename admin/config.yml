@@ -1,6 +1,19 @@
-fields:
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "historias"
+    label: "Relatos Médicos"
+    folder: "_historias"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
       - { label: "Título", name: "title", widget: "string" }
       - { label: "Fecha", name: "date", widget: "datetime" }
       - { label: "Imagen de Portada", name: "image", widget: "image", required: false }
-      - { label: "ID del Video de YouTube", name: "youtube_id", widget: "string", hint: "Solo el código final", required: false }
+      - { label: "ID del Video de YouTube", name: "youtube_id", widget: "string", hint: "Solo el código final, ej: dQw4w9WgXcQ", required: false }
       - { label: "Relato", name: "body", widget: "markdown" }
