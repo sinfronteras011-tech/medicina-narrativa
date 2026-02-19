@@ -6,26 +6,34 @@
     <title>Relatos Médicos | Medicina Narrativa</title>
     <style>
         :root { --primary: #2c3e50; --accent: #3498db; --light: #f4f7f6; --text: #333; }
-        body { font-family: 'Segoe UI', sans-serif; line-height: 1.8; color: var(--text); max-width: 800px; margin: auto; padding: 2rem; background: var(--light); }
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.8; color: var(--text); max-width: 900px; margin: auto; padding: 2rem; background: var(--light); }
         .back-link { text-decoration: none; color: var(--accent); font-weight: bold; display: inline-block; margin-bottom: 2rem; }
-        article { background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); }
-        h1 { color: var(--primary); font-size: 2.2rem; }
-        footer { text-align: center; margin-top: 3rem; font-size: 0.8rem; color: #666; }
+        .story-card { background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); margin-bottom: 3rem; }
+        h1 { color: var(--primary); font-size: 2.2rem; margin-top: 0; }
+        .date { color: #888; font-size: 0.9rem; font-style: italic; }
+        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 20px 0; border-radius: 10px; }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #666; }
     </style>
 </head>
 <body>
 
     <a href="index.html" class="back-link">← Volver al inicio</a>
 
-    <article>
-        <h1>El primer estetoscopio: Una historia de pudor</h1>
-        <p>En 1816, el médico René Laennec inventó el estetoscopio usando un cilindro de papel enrollado porque no se sentía cómodo apoyando su oreja en el pecho de una paciente joven.</p>
-        <p>Este simple acto de respeto y creatividad cambió la medicina diagnóstica para siempre.</p>
-        <p><i>Próximamente más historias de Medicina del Complemento (MDC)...</i></p>
+    <article class="story-card">
+        <span class="date">18 de Febrero, 2026</span>
+        <h1>Misterios Médicos: El Estetoscopio</h1>
+        <p>En 1816, el médico francés <strong>René Laennec</strong> inventó el primer estetoscopio. Lo hizo usando un cilindro de papel porque le daba vergüenza apoyar su oreja directamente en el pecho de sus pacientes mujeres.</p>
+        
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/LIVE_O_VIDEO_ID" title="YouTube video player" allowfullscreen></iframe>
+        </div>
+        
+        <p>Hoy, este instrumento es el símbolo universal de nuestra profesión. Lo que nació de la timidez, terminó revolucionando la auscultación cardíaca.</p>
     </article>
 
     <footer>
-        <p>MDC - Medicina del Complemento</p>
+        <p>MDC - Medicina del Complemento | Tu salud contada en historias</p>
     </footer>
 
 </body>
