@@ -19,7 +19,7 @@
     <a href="./index.html" class="back-link">← Volver al inicio</a>
 
     <div id="contenedor-historias">
-        <p style="text-align:center;">Cargando relatos médicos actualizados...</p>
+        <p style="text-align:center;">Sincronizando con el Panel de Control...</p>
     </div>
 
     <footer>
@@ -30,35 +30,35 @@
         async function cargarHistorias() {
             const contenedor = document.getElementById('contenedor-historias');
             try {
-                // SOLUCIÓN LENTITUD: Agregamos un número aleatorio (?t=...) para forzar a GitHub a dar el archivo más nuevo
-                const timestamp = new Date().getTime();
-                const response = await fetch(`https://api.github.com/repos/sinfronteras011-tech/medicina-narrativa/contents/_historias?t=${timestamp}`);
+                // Forzamos la actualización inmediata con un timestamp
+                const ts = new Date().getTime();
+                const response = await fetch(`https://api.github.com/repos/sinfronteras011-tech/medicina-narrativa/contents/_historias?t=${ts}`);
                 const files = await response.json();
                 
                 if(files.length > 0) contenedor.innerHTML = '';
 
-                // Ordenar por nombre (los más nuevos suelen ir primero por fecha en el nombre)
+                // Los más nuevos arriba
                 files.reverse(); 
 
                 for (let file of files) {
-                    const contentRes = await fetch(`${file.download_url}?t=${timestamp}`);
+                    const contentRes = await fetch(`${file.download_url}?t=${ts}`);
                     const text = await contentRes.text();
                     
                     const lineas = text.split('\n');
-                    const titulo = lineas.find(l => l.startsWith('title:')).replace('title: ', '').replace(/"/g, '');
-                    const fecha = lineas.find(l => l.startsWith('date:')).replace('date: ', '').substring(0, 10);
+                    const titulo = (lineas.find(l => l.startsWith('title:')) || '').replace('title: ', '').replace(/"/g, '');
+                    const fecha = (lineas.find(l => l.startsWith('date:')) || '').replace('date: ', '').substring(0, 10);
                     const cuerpo = text.split('---').pop();
 
                     contenedor.innerHTML += `
                         <article class="story-card">
-                            <span class="date">Publicado el: ${fecha}</span>
-                            <h1>${titulo}</h1>
+                            <span class="date">Publicado el: ${fecha || 'Reciente'}</span>
+                            <h1>${titulo || 'Sin título'}</h1>
                             <div style="white-space: pre-line;">${cuerpo}</div>
                         </article>
                     `;
                 }
             } catch (error) {
-                contenedor.innerHTML = '<p>No se encontraron relatos o el servicio está actualizando. Reintenta en un momento.</p>';
+                contenedor.innerHTML = '<p style="text-align:center;">Tu web se está actualizando. Por favor, refresca en 10 segundos.</p>';
             }
         }
         cargarHistorias();
