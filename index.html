@@ -21,7 +21,17 @@
         footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #666; }
     </style>
 </head>
-<body>
+<body><script>
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+</script>
 
 <header>
     <h1>Medicina Narrativa: Tu Salud en Historias</h1>
@@ -69,4 +79,5 @@
 
 </body>
 </html>
+
 
