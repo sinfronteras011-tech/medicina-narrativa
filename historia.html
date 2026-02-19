@@ -11,30 +11,56 @@
         .story-card { background: white; padding: 2.5rem; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-top: 5px solid var(--accent); margin-bottom: 3rem; }
         h1 { color: var(--primary); font-size: 2.2rem; margin-top: 0; }
         .date { color: #888; font-size: 0.9rem; font-style: italic; }
-        .video-container { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin: 20px 0; border-radius: 10px; }
-        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
         footer { text-align: center; padding: 2rem; font-size: 0.8rem; color: #666; }
+        .reference-list { background: #eee; padding: 1rem; border-radius: 8px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <a href="index.html" class="back-link">← Volver al inicio</a>
+    <a href="/" class="back-link">← Volver al inicio</a>
 
-    <article class="story-card">
-        <span class="date">18 de Febrero, 2026</span>
-        <h1>Misterios Médicos: El Estetoscopio</h1>
-        <p>En 1816, el médico francés <strong>René Laennec</strong> inventó el primer estetoscopio. Lo hizo usando un cilindro de papel porque le daba vergüenza apoyar su oreja directamente en el pecho de sus pacientes mujeres.</p>
-        
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/LIVE_O_VIDEO_ID" title="YouTube video player" allowfullscreen></iframe>
-        </div>
-        
-        <p>Hoy, este instrumento es el símbolo universal de nuestra profesión. Lo que nació de la timidez, terminó revolucionando la auscultación cardíaca.</p>
-    </article>
+    <div id="contenedor-historias">
+        <p style="text-align:center;">Cargando relatos médicos...</p>
+    </div>
 
     <footer>
-        <p>MDC - Medicina del Complemento | Tu salud contada en historias</p>
+        <p>MDC - Medicina del Complemento</p>
     </footer>
 
+    <script>
+        // Este código busca tus archivos guardados por el Panel de Control
+        async function cargarHistorias() {
+            const contenedor = document.getElementById('contenedor-historias');
+            try {
+                // Buscamos en la carpeta donde el CMS guarda tus textos
+                const response = await fetch('https://api.github.com/repos/sinfronteras011-tech/medicina-narrativa/contents/_historias');
+                const files = await response.json();
+                
+                if(files.length > 0) contenedor.innerHTML = ''; // Limpiamos el mensaje de carga
+
+                for (let file of files) {
+                    const contentRes = await fetch(file.download_url);
+                    const text = await contentRes.text();
+                    
+                    // Separamos el Título del Cuerpo (Formato Markdown)
+                    const lineas = text.split('\n');
+                    const titulo = lineas.find(l => l.startsWith('title:')).replace('title: ', '').replace(/"/g, '');
+                    const fecha = lineas.find(l => l.startsWith('date:')).replace('date: ', '').substring(0, 10);
+                    const cuerpo = text.split('---').pop(); // Todo lo que está después de las rayitas
+
+                    contenedor.innerHTML += `
+                        <article class="story-card">
+                            <span class="date">Publicado el: ${fecha}</span>
+                            <h1>${titulo}</h1>
+                            <div style="white-space: pre-line;">${cuerpo}</div>
+                        </article>
+                    `;
+                }
+            } catch (error) {
+                contenedor.innerHTML = '<p>Publica tu primer relato desde el panel para verlo aquí.</p>';
+            }
+        }
+        cargarHistorias();
+    </script>
 </body>
 </html>
